@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Circle Drawer</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #f5f5f5;
+        font-family: Arial, sans-serif;
+    }
+
+    .card {
+        background: white;
+        padding: 20px;
+        width: 420px;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .icon {
+        width: 22px;
+        height: 22px;
+        background: #2563eb;
+        border-radius: 5px;
+    }
+
+    button {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 6px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    button:hover {
+        background: #1e40af;
+    }
+
+    .draw-area {
+        position: relative;
+        height: 260px;
+        border: 2px dashed #d1d5db;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        cursor: pointer;
+    }
+
+    .circle {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: #2563eb;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .counter {
+        text-align: center;
+        font-size: 16px;
+        color: #374151;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <div class="toolbar">
+        <div class="icon"></div>
+        <button onclick="undoCircle()">Undo</button>
+    </div>
+
+    <div class="draw-area" id="drawArea"></div>
+
+    <div class="counter">
+        Circles drawn: <span id="count">0</span>
+    </div>
+</div>
+
+<script>
+    const drawArea = document.getElementById("drawArea");
+    const countText = document.getElementById("count");
+    let circles = [];
+
+    drawArea.addEventListener("click", (e) => {
+        const rect = drawArea.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const circle = document.createElement("div");
+        circle.classList.add("circle");
+        circle.style.left = x + "px";
+        circle.style.top = y + "px";
+
+        drawArea.appendChild(circle);
+        circles.push(circle);
+        updateCount();
+    });
+
+    function undoCircle() {
+        if (circles.length > 0) {
+            const last = circles.pop();
+            drawArea.removeChild(last);
+            updateCount();
+        }
+    }
+
+    function updateCount() {
+        countText.textContent = circles.length;
+    }
+</script>
+
+</body>
+</html>

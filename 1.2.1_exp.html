@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Character Counter</title>
+    
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        /* 1. DARK THEME BACKGROUND */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0f172a; /* Deep Navy Blue */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+        .container {
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* Aligns the counter to the right */
+        }
+
+        /* 2. INPUT BOX STYLING (Glassmorphism) */
+        textarea {
+            width: 100%;
+            height: 120px;
+            background-color: rgba(255, 255, 255, 0.05); /* Semi-transparent */
+            border: 1px solid rgba(255, 255, 255, 0.2);  /* Thin light border */
+            border-radius: 12px;
+            padding: 20px;
+            box-sizing: border-box; /* Ensures padding doesn't break width */
+            color: #e2e8f0; /* Light grey text */
+            font-size: 18px;
+            font-family: inherit;
+            resize: none; /* Disables resize handle */
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        /* Focus State: Glow slightly when clicked */
+        textarea:focus {
+            border-color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Placeholder Text Styling */
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 3. COUNTER STYLING */
+        .counter {
+            margin-top: 10px;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.6); /* Muted white */
+            font-weight: 400;
+        }
+
+        /* Warning color when limit is reached */
+        .limit-reached {
+            color: #ef4444; /* Red */
+            border-color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function MessageInput() {
+            const [text, setText] = React.useState('');
+            const limit = 150;
+
+            const handleChange = (e) => {
+                setText(e.target.value);
+            };
+
+            return (
+                <div className="container">
+                    <textarea 
+                        className={text.length === limit ? "limit-reached" : ""}
+                        placeholder="Type your message..." 
+                        maxLength={limit}
+                        onChange={handleChange}
+                        value={text}
+                    ></textarea>
+                    
+                    {/* The Counter */}
+                    <div className="counter">
+                        {text.length}/{limit}
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MessageInput />);
+    </script>
+
+</body>
+</html>

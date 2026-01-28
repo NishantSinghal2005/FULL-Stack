@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    padding: 40px;
+}
+
+h1 {
+    font-size: 40px;
+}
+
+input {
+    width: 300px;
+    padding: 10px;
+    margin: 10px 0 30px 0;
+    font-size: 16px;
+}
+
+.button {
+    display: flex;
+    gap: 20px;
+}
+
+button {
+    padding: 15px 40px;
+    font-size: 22px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.deposit {
+    background: blue;
+}
+
+.withdraw {
+    background: red;
+}
+
+#message {
+    margin-top: 30px;
+    font-size: 24px;
+    color: red;
+}
+    </style>
+
+</head>
+<body>
+    <h1>Balance: $<span id="balance">1000</span></h1>
+
+    <label> Amount </label>
+    <input type="number" id="amount" placeholder="enter Amount">
+
+    <div class="button">
+            <button class="deposit" onclick="deposit()">Deposit</button>
+            <button class="withdraw" onclick="withdraw()">withdraw</button>
+        
+    </div>
+
+    <p id="message"></p>
+    <script>
+        let balance = 1000;
+
+function deposit() {
+    let amount = Number(document.getElementById("amount").value);
+
+    if (amount <= 0) {
+        showError();
+        return;
+    }
+
+    balance += amount;
+    updateBalance();
+}
+
+function withdraw() {
+    let amount = Number(document.getElementById("amount").value);
+
+    if (amount <= 0 || amount > balance) {
+        showError();
+        return;
+    }
+
+    balance -= amount;
+    updateBalance();
+}
+
+function updateBalance() {
+    document.getElementById("balance").textContent = balance;
+    document.getElementById("message").textContent = "";
+}
+
+function showError() {
+    document.getElementById("message").textContent = "Invalid amount!";
+}
+    </script>
+</body> 
+</html>
